@@ -1,0 +1,60 @@
+  <!-- users と book から表示するので、layoutsフォルダに設置　-->
+  <!-- プロフィール画面 -->
+    <% if book.errors.any? %> 
+      <%= book.errors.count %>  error prohibited this obj from being saved:
+      <% book.errors.full_messages.each do |message| %>
+       <ul>
+        <li><%= message %></li>
+      </ul>
+      <% end %>
+    <% end %>
+
+  <div class="col-xs-3">
+      <h2>User info</h2>
+        <%= attachment_image_tag user, :profile_image, :fill, 100,100 , format: 'jpeg',class: "pull-left profile-img",fallback:"no_image.jpg" %>
+        
+        <table class="table">
+          <thead>
+
+          </thead>
+          <tbody>
+            <tr>
+              <td>name</td>
+              <td><%= user.name %></td>
+            </tr>
+            <td>introduction</td>
+            <td><%= user.introduction %></td>
+          </tbody>
+        </table>
+
+
+      <div class="row">
+        <% if user == current_user %>
+          <%= link_to edit_user_path(user),class:'btn btn-default btn-block' do%>
+            <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>                  
+          <% end %> 
+        <% else %>
+          <%= link_to user_path(current_user.id),class:'btn btn-default btn-block' do %>
+            <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+          <% end %>
+      <% end %>
+      </div>
+
+    <!--  投稿画面 -->
+      <h1>New book</h1>
+      <%= form_for(book) do |f| %>
+        <div class="row">
+          <%= f.label :title, "Title" %> <br>
+          <%= f.text_field :title,class:'form-control' %>
+        </div>
+
+        <div class="row">
+          <%= f.label :body, "Opinion" %> <br>
+          <%= f.text_area :body,class:'form-control'%>                
+        </div><br>
+
+        <div class="row">
+          <%= f.submit "Create Book",class:'btn btn-primary btn-block' %>
+        </div>
+      <% end %>
+  </div>
